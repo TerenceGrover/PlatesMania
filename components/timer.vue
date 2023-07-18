@@ -5,34 +5,47 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed, defineEmits } from 'vue'
-
+import { ref, watchEffect, computed, defineEmits } from 'vue'
 
 const props = defineProps({
   time: {
     type: Number,
     required: true,
-  }
+  },
+  start: {
+    type: Boolean,
+    required: true,
+  },
 })
 
-let timer = null
 const timeLeft = ref(props.time)
+const init = ref(props.start)
 const percentage = computed(() => ((timeLeft.value / props.time) * 100))
 const timeOut = defineEmits(['timeOut'])
 
-onMounted(() => {
-  timer = setInterval(() => {
+let intervalId = null
+const timer = () => {
+  intervalId = setInterval(() => {
     if (timeLeft.value > 0) {
       timeLeft.value--
     } else {
-      clearInterval(timer)
       timeOut('timeOut')
+      clearInterval(intervalId)
     }
   }, 1000)
-})
+  return intervalId
+}
 
-onUnmounted(() => {
-  clearInterval(timer)
+watchEffect(() => {
+  if (props.start && !init.value) {
+    init.value = true
+    timeLeft.value = props.time
+    timer()
+  } else if (!props.start && init.value) {
+    init.value = false
+    timeLeft.value = props.time
+    clearInterval(intervalId)
+  }
 })
 </script>
 

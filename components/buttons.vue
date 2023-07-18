@@ -1,11 +1,12 @@
 <template>
   <div class="buttons-container">
-    <button v-for="key,value in countries" :key="key" class="btn">{{ `${key} ${value}` }}</button>
+    <button @click="check" v-for="key,value in countries" :key="key" :data-country="value" class="btn">{{ `${key} ${value}` }}</button>
   </div>
 </template>
 
 <script setup>
 import {Country} from '../resources/CountryMap.json'
+import { defineEmits } from 'vue'
 
 const countries = ref({})
 
@@ -23,6 +24,17 @@ for (let i = 0; i < 3; i++) {
   }
   countries.value[randomCountry] = Country[randomCountry]
 }
+
+const scoreEmit = defineEmits(['add', 'sub'])
+
+const check = (e) => {
+  if (e.target.dataset['country'] === props.country) {
+    scoreEmit('add')
+  } else {
+    scoreEmit('sub')
+  }
+}
+
 </script>
 
 <style scoped>
