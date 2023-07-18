@@ -29,9 +29,16 @@ const scoreEmit = defineEmits(['add', 'sub'])
 
 const check = (e) => {
   if (e.target.dataset['country'] === props.country) {
-    scoreEmit('add')
+    e.target.style.background = 'green'
+    setTimeout(() => {
+      scoreEmit('add')
+    }, 500);
   } else {
-    scoreEmit('sub')
+    e.target.style.background = 'red'
+    e.target.animate = 'shake 0.5s'
+    setTimeout(() => {
+      scoreEmit('sub')
+    }, 500);
   }
 }
 
@@ -50,4 +57,27 @@ const check = (e) => {
 .btn {
   padding: 20px 0;
 }
+
+.btn:hover {
+  cursor: pointer;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(10px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 </style>

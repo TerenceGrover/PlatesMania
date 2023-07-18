@@ -56,6 +56,7 @@ watchEffect(() => {
   background: linear-gradient(to right, red, yellow, green);
   border-radius: 10px;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .timer {
