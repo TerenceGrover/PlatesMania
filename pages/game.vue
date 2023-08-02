@@ -10,7 +10,7 @@
         <Photo :image="result.link" />
       </div>
     </div>
-    <div v-if="isLoading">
+    <div class="loading-buttons" v-if="isLoading">
       ...Loading
     </div>
     <div v-else>
@@ -86,5 +86,9 @@ const timeOut = async () => {
   align-items: center;
   border: 2px solid #000000aa;
   border-radius: 10px;
+}
+
+.loading-buttons {
+  margin-top: 20px;
 }
 </style>
